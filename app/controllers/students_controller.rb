@@ -1,8 +1,15 @@
 class StudentsController < ApplicationController
 
   def index
+    arr = []
     students = Student.all
-    render json: students
+    if params[:name]
+       arr << students.find_by(last_name: params[:name].capitalize())
+       arr << students.find_by(first_name: params[:name].capitalize())
+       render json: arr
+    else
+      render json: students
+    end
   end
 
   def show
@@ -10,8 +17,8 @@ class StudentsController < ApplicationController
     render json: students
   end
 
-def first_name
-  students = Student.find_by(params)
+def last_name
+  students = Student.find_by(params[:name])
   render json: students
 end
 
